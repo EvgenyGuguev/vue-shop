@@ -7,12 +7,29 @@
         </router-link>
         <h1 class="catalog__title" v-if="IS_DESKTOP">Catalog</h1>
 
-        <select-app
-                :options="categories"
-                @selectOption="selectCategory"
-                :selected="selected"
-                :is-expanded="IS_MOBILE"
-        />
+        <div class="filters">
+            <select-app
+                    :options="categories"
+                    @selectOption="selectCategory"
+                    :selected="selected"
+                    :is-expanded="IS_MOBILE"
+            />
+
+            <div class="range-slider" v-if="IS_DESKTOP">
+                <input type="range" min="0" max="9000" step="100"
+                        v-model.number="minPrice"
+                        @change="setRangeSlider">
+                <input type="range" min="0" max="9000" step="100"
+                       v-model.number="maxPrice"
+                       @change="setRangeSlider">
+            </div>
+
+            <div class="range-values" v-if="IS_DESKTOP">
+                <p>Min: {{ minPrice }}</p>
+                <p>Max: {{ maxPrice }}</p>
+            </div>
+        </div>
+
 
         <div class="catalog__list" :class="{ 'is_mobile': IS_MOBILE }">
             <catalog-item
@@ -41,6 +58,8 @@
                 ],
                 selected: 'Все',
                 sortedProducts: [],
+                minPrice: 0,
+                maxPrice: 10000,
             }
         },
         components: {
@@ -56,14 +75,25 @@
                 this.ADD_TO_CART(data);
             },
             selectCategory(category) {
-                this.sortedProducts = [];
                 let vm = this;
-                this.PRODUCTS.map(function (item) {
-                    if (item.category === category.name) {
-                        vm.sortedProducts.push(item);
-                    }
-                })
-                this.selected = category.name;
+                this.sortedProducts = [...this.PRODUCTS];
+                this.sortedProducts = this.sortedProducts.filter(function (item) {
+                    return item.price >= vm.minPrice && item.price <= vm.maxPrice;
+                });
+                if (category) {
+                    this.sortedProducts = this.sortedProducts.filter(function (item) {
+                        vm.selected = category.name;
+                        return item.category === category.name;
+                    });
+                }
+            },
+            setRangeSlider() {
+                if (this.minPrice > this.maxPrice) {
+                    let temp = this.maxPrice;
+                    this.maxPrice = this.minPrice;
+                    this.minPrice = temp;
+                }
+                this.selectCategory();
             }
         },
         mounted() {
@@ -71,6 +101,7 @@
                 .then((res) => {
                     if (res.data) {
                         console.log('ITS OK');
+                        this.selectCategory();
                     }
                 });
         },
@@ -93,6 +124,8 @@
 </script>
 
 <style lang="scss">
+
+    // Catalog
     .catalog {
         display: flex;
         flex-direction: column;
@@ -118,6 +151,41 @@
 
         .is_mobile {
             margin-top: 7.4rem;
+        }
+
+        // Filters
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .range-values {
+            margin-right: 3rem;
+            text-align: end;
+            font-weight: bold;
+            &.range-values p {
+                color: #3193ef;
+            }
+        }
+
+        // Range Slider
+        .range-slider {
+            width: 15rem;
+            margin: auto 0;
+            text-align: center;
+            position: relative;
+        }
+        .range-slider svg, .range-slider input[type=range] {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            z-index: 2;
+            position: relative;
+            top: 0.2rem;
+            margin-top: -0.7rem;
         }
     }
 </style>

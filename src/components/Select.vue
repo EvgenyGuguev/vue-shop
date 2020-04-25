@@ -49,7 +49,7 @@
         margin: 0 0 0 2.5rem;
         user-select: none;
         cursor: pointer;
-        position: absolute;
+        position: relative;
         width: 10rem;
         &__title {
             border: solid 1px gray;
