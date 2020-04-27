@@ -1,23 +1,62 @@
 <template>
     <div class="catalog-item">
+
+        <popup
+            class="catalog-item__popup"
+            v-if="isPopupVisible"
+            @closePopup="closeInfoPopup"
+            rightBtnTitle="Add to Cart"
+            :popupItem="product_data.name"
+            @actionPopup="addToCart"
+        >
+            <img
+                    class="catalog-item__image"
+                    :src="require('../../assets/images/' + product_data.image)"
+                    alt="img">
+            <div>
+                <p><b>{{ product_data.name }}</b></p>
+                <p><b>Price:</b> {{ product_data.price }} P</p>
+                <p><b>Category:</b> {{ product_data.category }}</p>
+                <p><b>Description:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, cupiditate dicta enim, error exercitationem illum inventore ipsam nostrum pariatur quae repudiandae tempore velit veritatis voluptates voluptatum! Distinctio facilis nesciunt veritatis.</p>
+
+            </div>
+        </popup>
+
         <img
                 class="catalog-item__image"
                 :src="require('../../assets/images/' + product_data.image)"
                 alt="img">
         <h2>{{ product_data.name }}</h2>
         <p>Price: {{ product_data.price }} P</p>
-        <p>Category: {{ product_data.category }}</p>
-        <button type="submit"
-                class="button"
-                @click="addToCart">
-            Add to Cart
-        </button>
+
+        <div class="catalog-item__btns">
+            <button class="catalog-item__show-info button"
+                    @click="showPopup">
+                Show Info
+            </button>
+
+            <button type="submit"
+                    class="button"
+                    @click="addToCart">
+                Add to Cart
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
+    import Popup from "../popup/Popup";
+
     export default {
         name: "CatalogItem",
+        data() {
+            return {
+                isPopupVisible: false,
+            }
+        },
+        components: {
+           Popup,
+        },
         props: {
             product_data: {
                 type: Object,
@@ -32,6 +71,12 @@
         methods: {
             addToCart() {
                 this.$emit('addToCart', this.product_data)
+            },
+            showPopup() {
+                this.isPopupVisible = true;
+            },
+            closeInfoPopup() {
+                this.isPopupVisible = false;
             }
         }
     }
@@ -43,9 +88,16 @@
         padding: 1rem;
         margin: 2rem;
         flex-basis: 25%;
-            &__image {
-                width: 150px;
-            }
+        &__image {
+            width: 150px;
+        }
+        &__btns {
+            display: flex;
+            justify-content: space-between;
+        }
+        &__popup img {
+            margin-right: 1rem;
+        }
     }
     .button {
         outline: none;
@@ -54,7 +106,7 @@
         background-color: #3193ef;
         border: none;
         color: white;
-        padding: 1rem 2rem;
+        padding: 1rem 1rem;
         font-size: 0.9rem;
         cursor: pointer;
         &:hover {

@@ -164,9 +164,6 @@
             margin-right: 3rem;
             text-align: end;
             font-weight: bold;
-            &.range-values p {
-                color: #3193ef;
-            }
         }
 
         // Range Slider
