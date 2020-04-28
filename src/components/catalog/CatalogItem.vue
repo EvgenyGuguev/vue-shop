@@ -15,7 +15,7 @@
                     alt="img">
             <div>
                 <p><b>{{ product_data.name }}</b></p>
-                <p><b>Price:</b> {{ product_data.price }} P</p>
+                <p><b>Price:</b> {{ product_data.price | toFix | formattedPrice }}</p>
                 <p><b>Category:</b> {{ product_data.category }}</p>
                 <p><b>Description:</b> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, cupiditate dicta enim, error exercitationem illum inventore ipsam nostrum pariatur quae repudiandae tempore velit veritatis voluptates voluptatum! Distinctio facilis nesciunt veritatis.</p>
 
@@ -27,7 +27,7 @@
                 :src="require('../../assets/images/' + product_data.image)"
                 alt="img">
         <h2>{{ product_data.name }}</h2>
-        <p>Price: {{ product_data.price }} P</p>
+        <p>Price: {{ product_data.price | toFix | formattedPrice}}</p>
 
         <div class="catalog-item__btns">
             <button class="button catalog-item__show-info"
@@ -46,6 +46,8 @@
 
 <script>
     import Popup from "../popup/Popup";
+    import toFix from "../../filters/toFix";
+    import formattedPrice from "../../filters/priceFormat";
 
     export default {
         name: "CatalogItem",
@@ -53,6 +55,10 @@
             return {
                 isPopupVisible: false,
             }
+        },
+        filters: {
+            toFix,
+            formattedPrice
         },
         components: {
            Popup,

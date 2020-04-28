@@ -6,7 +6,7 @@
         >
         <div class="cart-item__info">
             <p>{{ cart_item_data.name }}</p>
-            <p>Цена: {{ cart_item_data.price }} Р</p>
+            <p>Цена: {{ cart_item_data.price | toFix | formattedPrice }}</p>
             <p>{{ cart_item_data.article }}</p>
         </div>
         <div class="cart-item__quantity">
@@ -32,6 +32,9 @@
 </template>
 
 <script>
+    import toFix from "../../filters/toFix";
+    import formattedPrice from "../../filters/priceFormat";
+
     export default {
         name: "CartItem",
         props: {
@@ -41,6 +44,10 @@
                     return {};
                 }
             },
+        },
+        filters: {
+            toFix,
+            formattedPrice
         },
         methods: {
             deleteFromCart() {
