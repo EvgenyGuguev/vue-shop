@@ -70,7 +70,7 @@
         }
         &__btn {
             background-color: orangered;
-            padding: 0.7rem 1rem;
+            padding: 0.7rem;
             font-size: 0.7rem;
             &:hover {
                 background-color: #d02c18;

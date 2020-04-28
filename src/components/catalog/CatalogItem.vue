@@ -30,7 +30,7 @@
         <p>Price: {{ product_data.price }} P</p>
 
         <div class="catalog-item__btns">
-            <button class="catalog-item__show-info button"
+            <button class="button catalog-item__show-info"
                     @click="showPopup">
                 Show Info
             </button>
@@ -103,12 +103,20 @@
         outline: none;
         border-radius: 0.7rem;
         text-transform: uppercase;
-        background-color: #3193ef;
+        background-color: #2eba09;
         border: none;
         color: white;
-        padding: 1rem 1rem;
+        padding: 0.7rem;
         font-size: 0.9rem;
         cursor: pointer;
+        &:hover {
+            background-color: #1a670a;
+        }
+    }
+
+    .catalog-item__show-info {
+
+        background-color: #3193ef;
         &:hover {
             background-color: #3863e9;
         }

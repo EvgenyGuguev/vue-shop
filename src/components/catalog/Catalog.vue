@@ -1,5 +1,10 @@
 <template>
     <div class="catalog">
+
+        <notification
+            :messages="messages"
+        />
+
         <router-link :to="{ name: 'cart', params: {cart_data: CART}}">
             <div class="catalog__link_to_cart">
                 Cart: {{ CART.length }}
@@ -45,6 +50,7 @@
 <script>
     import CatalogItem from "./CatalogItem";
     import Select from "../Select";
+    import Notification from "../notification/Notification";
     import {mapActions, mapGetters} from 'vuex';
 
     export default {
@@ -60,11 +66,13 @@
                 sortedProducts: [],
                 minPrice: 0,
                 maxPrice: 10000,
+                messages: [],
             }
         },
         components: {
             CatalogItem,
             'select-app': Select,
+            Notification,
         },
         methods: {
             ...mapActions([
@@ -72,7 +80,13 @@
                 'ADD_TO_CART'
             ]),
             addToCart(data) {
-                this.ADD_TO_CART(data);
+                this.ADD_TO_CART(data)
+                    .then(() => {
+                        let timeStamp = Date.now().toLocaleString();
+                        this.messages.unshift(
+                            { name: 'Товар добавлен в корзину', id: timeStamp, icon: 'check_circle'}
+                        )
+                    });
             },
             selectCategory(category) {
                 let vm = this;
@@ -158,6 +172,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 2rem;
         }
 
         .range-values {
