@@ -17,6 +17,7 @@ let store = new Vuex.Store({
         cart: [],
         isMobile: false,
         isDesktop: true,
+        searchValue: '',
     },
     mutations,
     actions,

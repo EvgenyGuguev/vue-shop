@@ -6,7 +6,7 @@
             </div>
         </router-link>
         <h1>Cart</h1>
-        <p v-if="!cart_data.length">Cart is empty now...</p>
+        <p v-if="!cart_data.length" style="font-size: 1.5rem">Cart is empty now...</p>
         <cart-item
                 v-for="(item, index) in cart_data"
                 :key="item.article"
@@ -74,20 +74,20 @@
     .cart {
         margin-bottom: 9rem;
         &__link_to_catalog {
-            display: block;
             position: fixed;
-            top: 1rem;
+            top: 0.9rem;
             right: 1rem;
             padding: 1rem;
             border: solid 1px slategray;
             cursor: pointer;
+            background: white;
         }
         &__total {
             position: fixed;
             bottom: 0;
             right: 0;
             left: 0;
-            padding: 1rem;
+            padding: 0.5rem;
             display: flex;
             justify-content: center;
             background: #3193ef;

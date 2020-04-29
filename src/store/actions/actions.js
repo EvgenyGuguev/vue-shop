@@ -17,4 +17,7 @@ export default {
     SET_DESKTOP({commit}) {
         commit('SWITCH_DESKTOP');
     },
+    GET_SEARCH_VALUE_TO_VUEX ({commit}, value) {
+        commit('SET_SEARCH_VALUE_TO_VUEX', value);
+    }
 }

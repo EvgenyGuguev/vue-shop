@@ -71,7 +71,7 @@
 <style lang="scss">
     .notification {
         position: fixed;
-        top: 5rem;
+        top: 6rem;
         right: 1rem;
         z-index: 10;
 

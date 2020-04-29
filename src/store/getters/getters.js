@@ -11,4 +11,7 @@ export default {
     IS_DESKTOP(state) {
         return state.isDesktop;
     },
+    SEARCH_VALUE: state => {
+        return state.searchValue;
+    }
 }

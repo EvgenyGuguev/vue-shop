@@ -12,7 +12,7 @@
         </router-link>
         <h1 class="catalog__title" v-if="IS_DESKTOP">Catalog</h1>
 
-        <div class="filters">
+        <div class="filters" :class="{ 'is_mobile_filters': IS_MOBILE }">
             <select-app
                     :options="categories"
                     @selectOption="selectCategory"
@@ -108,14 +108,30 @@
                     this.minPrice = temp;
                 }
                 this.selectCategory();
+            },
+            searchProductsByValue(value) {
+                this.sortedProducts = [...this.PRODUCTS];
+                if (value) {
+                    this.sortedProducts = this.sortedProducts.filter(item => {
+                        return item.name.includes(value);
+                    });
+                } else  {
+                    this.sortedProducts = this.PRODUCTS;
+                }
+
+            }
+        },
+        watch: {
+            SEARCH_VALUE() {
+                this.searchProductsByValue(this.SEARCH_VALUE);
             }
         },
         mounted() {
             this.GET_PRODUCTS_FROM_API()
                 .then((res) => {
                     if (res.data) {
-                        console.log('ITS OK');
                         this.selectCategory();
+                        this.searchProductsByValue();
                     }
                 });
         },
@@ -125,6 +141,7 @@
                 'CART',
                 'IS_MOBILE',
                 'IS_DESKTOP',
+                'SEARCH_VALUE'
             ]),
             filteredProducts() {
                 if (this.sortedProducts.length) {
@@ -141,6 +158,7 @@
 
     // Catalog
     .catalog {
+        margin-top: 5rem;
         display: flex;
         flex-direction: column;
         &__list {
@@ -154,17 +172,17 @@
             font-size: 3rem;
         }
         &__link_to_cart {
-            display: block;
             position: fixed;
-            top: 1rem;
+            top: 0.9rem;
             right: 1rem;
             padding: 1rem;
             border: solid 1px slategray;
             cursor: pointer;
+            background: white;
         }
 
         .is_mobile {
-            margin-top: 7.4rem;
+            margin-top: 12rem;
         }
 
         // Filters
@@ -173,6 +191,10 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+        }
+
+        .is_mobile_filters {
+            margin-top: 2rem;
         }
 
         .range-values {
