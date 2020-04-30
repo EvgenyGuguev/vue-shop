@@ -52,6 +52,7 @@
 
 <style lang="scss">
     .header {
+        z-index: 5;
         display: flex;
         justify-content: space-between;
         align-items: center;

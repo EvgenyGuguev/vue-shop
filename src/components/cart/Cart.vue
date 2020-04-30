@@ -74,6 +74,7 @@
     .cart {
         margin-bottom: 9rem;
         &__link_to_catalog {
+            z-index: 7;
             position: fixed;
             top: 0.9rem;
             right: 1rem;

@@ -12,7 +12,8 @@
             <img
                     class="catalog-item__image"
                     :src="require('../../assets/images/' + product_data.image)"
-                    alt="img">
+                    alt="img"
+            >
             <div>
                 <p><b>{{ product_data.name }}</b></p>
                 <p><b>Price:</b> {{ product_data.price | toFix | formattedPrice }}</p>
@@ -25,7 +26,9 @@
         <img
                 class="catalog-item__image"
                 :src="require('../../assets/images/' + product_data.image)"
-                alt="img">
+                alt="img"
+                @click="productClick"
+        >
         <h2>{{ product_data.name }}</h2>
         <p>Price: {{ product_data.price | toFix | formattedPrice}}</p>
 
@@ -83,6 +86,9 @@
             },
             closeInfoPopup() {
                 this.isPopupVisible = false;
+            },
+            productClick() {
+                this.$emit('productClick', this.product_data.article);
             }
         }
     }
